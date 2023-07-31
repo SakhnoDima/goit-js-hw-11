@@ -1,6 +1,17 @@
 .section-title{
-    background-color: rgb(3, 10, 130);
+    background-color: rgb(48, 57, 234);
     padding: 20px 0;
     display: flex;
     justify-content: center;
+}
+.button{
+    border: 2px solid rgb(5, 9, 81) ;
+    
+}
+.input{
+    border: 2px solid rgb(5, 9, 81) ;   
+}
+.button.js_button{
+    display: block;
+    margin: 0 auto;
 }

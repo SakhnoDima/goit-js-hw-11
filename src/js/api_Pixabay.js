@@ -16,7 +16,7 @@ export function fetchPhoto(serch_valie){
         method: 'get',
         url : `${BASE_URL}${MY_KEY}&q=${serch_valie}&image_type=photo&orientation=horizontal&safesearch=true`,
       })
-        .then(response =>  response)
+        .then(response =>  response.data)
 
     // return fetch(url).then(res=>{
     //     if (!res.ok) throw new Error(res.status)
