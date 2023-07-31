@@ -3,6 +3,7 @@ Notify.init({
     timeout: 3000,   
     position: 'left-top',
 })
+
 const axios = require('axios').default;
 
 

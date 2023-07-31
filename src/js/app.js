@@ -3,12 +3,21 @@ Notify.init({
     timeout: 3000,   
     position: 'left-top',
 })
+import { renderCard } from "./render_card";
+import { fetchPhoto } from "./api_Pixabay";
+import { refs } from "./helpers/refs";
 
-import { fetchPhoto } from "./api_Pixabay.js";
+refs.formEl.addEventListener("submit", onFormSubmit)
 
-fetchPhoto("sky")
+function onFormSubmit (event){
+event.preventDefault()
+const searchItem = event.target.elements.searchQuery.value
+
+fetchPhoto(searchItem)
 .then(data =>{
-    console.log(data);
     if(data.total === 0){
-    Notify.failure("Sorry, there are no images matching your search query. Please try again.")
-    }else return data}).catch(error => Notify.failure(`${error}`))
+    Notify.failure("Sorry, there are no images matching your search query. Please try again.")}
+else return data}).catch(error => Notify.failure(`${error}`))
+.then(data=> renderCard(data.hits, refs.galleryBox))
+}  
+

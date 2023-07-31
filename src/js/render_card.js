@@ -1,20 +1,24 @@
-export function renderCard(obj) {
-const markup = `<div class="photo-card">
-<img src="" alt="" loading="lazy" />
+export function renderCard(obj, rootSelector ) {
+
+const markup = obj.map(({previewURL,tags,likes,views,comments,downloads  }) => (`<div class="photo-card">
+<img src="${previewURL}" alt="${tags}" loading="lazy" />
 <div class="info">
   <p class="info-item">
-    <b>Likes</b>
+    <b>Likes ${likes}</b>
   </p>
   <p class="info-item">
-    <b>Views</b>
+    <b>Views ${views}</b>
   </p>
   <p class="info-item">
-    <b>Comments</b>
+    <b>Comments ${comments}</b>
   </p>
   <p class="info-item">
-    <b>Downloads</b>
+    <b>Downloads ${downloads}</b>
   </p>
 </div>
-</div> `
-    
+</div> `)).join("")
+
+
+
+return rootSelector.innerHTML = markup    
 }

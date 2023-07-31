@@ -15,3 +15,18 @@
     display: block;
     margin: 0 auto;
 }
+.gallery{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+.gallery-section{
+    padding: 20px 100px;
+    
+}
+.photo-card{
+    padding: 3px;
+    border: 1px solid black;
+    flex-basis: calc((100% - 20px * (10 - 1)) / 10);
+}
