@@ -1,0 +1,6 @@
+.section-title{
+    background-color: rgba(0, 13, 255, 0.931);
+    padding: 25px 0;
+    display: flex;
+    justify-content: center;
+}
