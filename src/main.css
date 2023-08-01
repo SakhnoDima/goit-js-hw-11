@@ -26,7 +26,20 @@
     
 }
 .photo-card{
-    padding: 3px;
-    border: 1px solid black;
+    
+   
     flex-basis: calc((100% - 20px * (10 - 1)) / 10);
+}
+.links{
+    font-size: 12px;
+    text-decoration: none;
+    color:black;
+    width: 100%;
+    padding: 3px;
+    flex-basis: calc(20% - 15px);
+    border: 1px solid black;
+}
+.small_img{
+    width: 100%;
+    
 }

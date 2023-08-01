@@ -1,8 +1,14 @@
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
+
+const modalLightboxGallery = new SimpleLightbox('.gallery a');
+ //============================================================ 
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 Notify.init({
     timeout: 3000,   
     position: 'left-top',
 })
+//============================================================
 import { renderCards } from "./render_card";
 import { FetchCardPixabay,} from "./api_Pixabay";
 import { refs } from "./helpers/refs";
@@ -10,8 +16,8 @@ import { setButtonDisable } from "./helpers/disableButton.js";
 
 refs.formEl.addEventListener("submit", onFormSubmit)
 refs.buttonPagination.addEventListener("click", onButtonPagination)
-//создал новый экземпляр
-const fetchCardPixabay = new FetchCardPixabay;  
+
+const fetchCardPixabay = new FetchCardPixabay;  //создал новый экземпляр
 
 
 function onFormSubmit (event){
@@ -38,6 +44,8 @@ else return data}).catch(error => Notify.failure(`${error}`))
     //проверяю на последнюю страницу
     setButtonDisable(fetchCardPixabay.page, Math.ceil(data.total / fetchCardPixabay.requestLimit ))
     
+    modalLightboxGallery.refresh();
+
     refs.buttonPagination.disabled = false  //кнопка стает активной
     renderCards(data.hits, refs.galleryBox)
 fetchCardPixabay.page += 1})
