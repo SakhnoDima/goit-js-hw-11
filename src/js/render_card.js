@@ -1,6 +1,7 @@
-export function renderCard(obj, rootSelector ) {
+export function renderCards(obj, rootSelector ) {
 
-const markup = obj.map(({previewURL,tags,likes,views,comments,downloads  }) => (`<div class="photo-card">
+const markup = obj.map(({previewURL,tags,likes,views,comments,downloads}) =>
+ (`<div class="photo-card">
 <img src="${previewURL}" alt="${tags}" loading="lazy" />
 <div class="info">
   <p class="info-item">
@@ -17,8 +18,7 @@ const markup = obj.map(({previewURL,tags,likes,views,comments,downloads  }) => (
   </p>
 </div>
 </div> `)).join("")
-
-
-
-return rootSelector.innerHTML = markup    
+return rootSelector.insertAdjacentHTML("beforeend", markup)    
 }
+
+
