@@ -28,6 +28,7 @@ event.preventDefault()
 refs.galleryBox.innerHTML = ""   //очищаем галерею
 const query = event.target.elements.searchQuery.value;  //запомниз значение поиска
 if (!query){ refs.buttonPagination.disabled = true   //проверяем на пустой инпут
+observer.unobserve(refs.buttonPagination)
 return Notify.failure("Sorry, You need write somesing")}
 observer.observe(refs.buttonPagination); // повесил observer
 fetchCardPixabay.query = query;
@@ -43,7 +44,7 @@ refs.buttonPagination.disabled = false;  //кнопка стает активн�
 renderCards(data.hits, refs.galleryBox); // отрисовка запроса
 
 event.target.reset(); //очищаю форму
-modalLightboxGallery.refresh();  //! библиотека SimpleLightbox
+modalLightboxGallery.refresh();
 }
 catch(error){ Notify.failure(`${error}`)
 event.target.reset(); //очищаю форму
@@ -54,13 +55,10 @@ async function onButtonPagination() {
     try{
 fetchCardPixabay.page += 1
 const data = await fetchCardPixabay.findCard()
-        if(data.total === 0){
-        Notify.failure("Sorry, there are no images matching your search query. Please try again.")}
-    else refs.buttonPagination.disabled = false  //кнопка стает активной
+refs.buttonPagination.disabled = false  //кнопка стает активной
 //проверяю на последнюю страницу
 setButtonDisable(fetchCardPixabay.page, Math.ceil(data.total / fetchCardPixabay.requestLimit ))
 renderCards(data.hits, refs.galleryBox)
-
 }
 catch(error){ Notify.failure(`${error}`)}
 }
