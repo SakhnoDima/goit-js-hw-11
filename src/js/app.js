@@ -12,10 +12,12 @@ Notify.init({
 import { renderCards } from "./render_card";
 import { FetchCardPixabay,} from "./api_Pixabay";
 import { refs } from "./helpers/refs";
-import { setButtonDisable } from "./helpers/disableButton.js";
+import { setButtonDisable} from "./helpers/disableButton.js";
 
 refs.formEl.addEventListener("submit", onFormSubmit)
 refs.buttonPagination.addEventListener("click", onButtonPagination)
+
+const observer = new IntersectionObserver(onObserver); // создал observer
 
 const fetchCardPixabay = new FetchCardPixabay;  //создал новый экземпляр
 
@@ -27,7 +29,7 @@ refs.galleryBox.innerHTML = ""   //очищаем галерею
 const query = event.target.elements.searchQuery.value;  //запомниз значение поиска
 if (!query){ refs.buttonPagination.disabled = true   //проверяем на пустой инпут
 return Notify.failure("Sorry, You need write somesing")}
-
+observer.observe(refs.buttonPagination); // повесил observer
 fetchCardPixabay.query = query;
 
 fetchCardPixabay.page = 1;  //вернул первую страницу
@@ -39,7 +41,7 @@ else Notify.success(`Hooray! We found ${data.total} images.`)
 setButtonDisable(fetchCardPixabay.page, Math.ceil(data.total / fetchCardPixabay.requestLimit )) //проверяю на последнюю страницу
 refs.buttonPagination.disabled = false;  //кнопка стает активной
 renderCards(data.hits, refs.galleryBox); // отрисовка запроса
-fetchCardPixabay.page += 1;
+
 event.target.reset(); //очищаю форму
 modalLightboxGallery.refresh();  //! библиотека SimpleLightbox
 }
@@ -50,6 +52,7 @@ event.target.reset(); //очищаю форму
 
 async function onButtonPagination() {
     try{
+fetchCardPixabay.page += 1
 const data = await fetchCardPixabay.findCard()
         if(data.total === 0){
         Notify.failure("Sorry, there are no images matching your search query. Please try again.")}
@@ -57,7 +60,13 @@ const data = await fetchCardPixabay.findCard()
 //проверяю на последнюю страницу
 setButtonDisable(fetchCardPixabay.page, Math.ceil(data.total / fetchCardPixabay.requestLimit ))
 renderCards(data.hits, refs.galleryBox)
-fetchCardPixabay.page += 1
+
 }
 catch(error){ Notify.failure(`${error}`)}
+}
+
+function onObserver(entries){
+    entries.forEach(entry => {
+    if (entry.isIntersecting){onButtonPagination()} 
+    })
 }
