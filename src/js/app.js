@@ -16,18 +16,20 @@ const fetchCardPixabay = new FetchCardPixabay;
 
 function onFormSubmit (event){
 event.preventDefault()
-//очищаем галерею
-refs.galleryBox.innerHTML = ""
-//запомниз значение поиска
-const query = event.target.elements.searchQuery.value;
-//проверяем на пустой инпут
-if (!query){ refs.buttonPagination.disabled = true
+
+refs.galleryBox.innerHTML = ""   //очищаем галерею
+
+const query = event.target.elements.searchQuery.value;  //запомниз значение поиска
+
+if (!query){ refs.buttonPagination.disabled = true   //проверяем на пустой инпут
 return Notify.failure("Sorry, You need write somesing")}
+
 fetchCardPixabay.query = query;
-//вернул первую страницу
-fetchCardPixabay.page = 1;
+
+fetchCardPixabay.page = 1;  //вернул первую страницу
+
 //рендер по сабмиту
-fetchCardPixabay.findCard().then(data =>{
+fetchCardPixabay.findCard().then(data =>{  
     if(data.total === 0){
     Notify.failure("Sorry, there are no images matching your search query. Please try again.")}
 else return data}).catch(error => Notify.failure(`${error}`))
@@ -35,14 +37,12 @@ else return data}).catch(error => Notify.failure(`${error}`))
     Notify.success(`Hooray! We found ${data.total} images.`)
     //проверяю на последнюю страницу
     setButtonDisable(fetchCardPixabay.page, Math.ceil(data.total / fetchCardPixabay.requestLimit ))
-    //кнопка стает активной
-    refs.buttonPagination.disabled = false
+    
+    refs.buttonPagination.disabled = false  //кнопка стает активной
     renderCards(data.hits, refs.galleryBox)
 fetchCardPixabay.page += 1})
-//очищаю форму
-event.target.reset()
-
-
+/
+event.target.reset() //очищаю форму
 }  
 
 function onButtonPagination() {
@@ -51,8 +51,8 @@ function onButtonPagination() {
         Notify.failure("Sorry, there are no images matching your search query. Please try again.")}
     else return data}).catch(error => Notify.failure(`${error}`))
     .then(data=> {
-         //кнопка стает активной
-        refs.buttonPagination.disabled = false
+         
+        refs.buttonPagination.disabled = false  //кнопка стает активной
         //проверяю на последнюю страницу
         setButtonDisable(fetchCardPixabay.page, Math.ceil(data.total / fetchCardPixabay.requestLimit ))
         renderCards(data.hits, refs.galleryBox)
