@@ -28,7 +28,7 @@ event.preventDefault()
 refs.galleryBox.innerHTML = ""   //очищаем галерею
 const query = event.target.elements.searchQuery.value;  //запомниз значение поиска
 if (!query){ refs.buttonPagination.disabled = true   //проверяем на пустой инпут
-observer.unobserve(refs.buttonPagination)
+observer.unobserve(refs.buttonPagination) //снял
 return Notify.failure("Sorry, You need write somesing")}
 observer.observe(refs.buttonPagination); // повесил observer
 fetchCardPixabay.query = query;
@@ -59,6 +59,9 @@ refs.buttonPagination.disabled = false  //кнопка стает активно
 //проверяю на последнюю страницу
 setButtonDisable(fetchCardPixabay.page, Math.ceil(data.total / fetchCardPixabay.requestLimit ))
 renderCards(data.hits, refs.galleryBox)
+// if(!data.total.hits){console.log("end");
+//     observer.unobserve(refs.buttonPagination)} //снял
+// 
 }
 catch(error){ Notify.failure(`${error}`)}
 }
