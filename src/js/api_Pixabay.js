@@ -11,34 +11,38 @@ const SEARCH_OPTIONS = "image_type=photo&orientation=horizontal&safesearch=true&
 
 
 export class FetchCardPixabay {
-params = new URLSearchParams({
-        image_type : "photo",
-        orientation : "horizontal",
-        safesearch : true,
-        per_page : 40,
-      });
-search_value = "";
-page = 1; 
+    searchValue = "";
+    page = 1; 
+    requestLimit = 40;
 
 findCard(){
+const params = new URLSearchParams({
+    q : this.searchValue,
+    page : this.page, 
+    image_type : "photo",
+    orientation : "horizontal",
+    safesearch : true,
+    per_page : this.requestLimit,
+  });
+
     return axios({
         method: 'get',
-        url : `${BASE_URL}${MY_KEY}&${this.params}&q=${this.search_value}`,
+        url : `${BASE_URL}${MY_KEY}&${params}`,
       })
         .then(response => response.data)}
  
-fotoPagin(){
-    return axios({
-        method: 'get',
-        url : `${BASE_URL}${MY_KEY}&q=${this.search_value}&${SEARCH_OPTIONS}&page=${this.page}`,
-      })
-        .then(response => response.data)
-    }
+// fotoPagin(){
+//     return axios({
+//         method: 'get',
+//         url : `${BASE_URL}${MY_KEY}&${this.params}`,
+//       })
+//         .then(response => response.data)
+//     }
 get query (){
-    return this.search_value;
+    return this.searchValue;
 }
 set query(newQuery){
-    this.search_value = newQuery;
+    this.searchValue = newQuery;
 }
 }
 
