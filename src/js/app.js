@@ -4,10 +4,11 @@ Notify.init({
     position: 'left-top',
 })
 import { renderCard } from "./render_card";
-import { fetchPhoto } from "./api_Pixabay";
+import { fetchPhoto, fetchPhotoPagin } from "./api_Pixabay";
 import { refs } from "./helpers/refs";
 
 refs.formEl.addEventListener("submit", onFormSubmit)
+refs.buttonPagination.addEventListener("click", onButtonPagination)
 
 function onFormSubmit (event){
 event.preventDefault()
@@ -21,3 +22,9 @@ else return data}).catch(error => Notify.failure(`${error}`))
 .then(data=> renderCard(data.hits, refs.galleryBox))
 }  
 
+function onButtonPagination() {
+const searchQuery = refs.input.value;
+
+fetchPhotoPagin
+    
+}

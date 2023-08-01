@@ -5,21 +5,43 @@ Notify.init({
 })
 
 const axios = require('axios').default;
+const BASE_URL = "https://pixabay.com/api/?";
+const MY_KEY = "key=38565810-29740f5778639307be3f3659c"
+const SEARCH_OPTIONS = "image_type=photo&orientation=horizontal&safesearch=true&per_page=40"
+
+export class fetchCard {
+search_value = "" 
+
+findCard(){
+    return axios({
+        method: 'get',
+        url : `${BASE_URL}${MY_KEY}&q=${serch_valie}&${SEARCH_OPTIONS}`,
+      })
+        .then(response => response.data)}
+
+fotoPagin(){
+    return axios({
+        method: 'get',
+        url : `${BASE_URL}${MY_KEY}&q=${serch_valie}&${SEARCH_OPTIONS}&page=${page}`,
+      })
+        .then(response =>  response.data)
+    }
+}
+
 
 
 export function fetchPhoto(serch_valie){
-    const BASE_URL = "https://pixabay.com/api/";
-    const MY_KEY = "?key=38565810-29740f5778639307be3f3659c"
-    // const url = `${BASE_URL}${MY_KEY}&q=${serch_valie}&image_type=photo&orientation=horizontal&safesearch=true`;
-    
-
     return axios({
         method: 'get',
-        url : `${BASE_URL}${MY_KEY}&q=${serch_valie}&image_type=photo&orientation=horizontal&safesearch=true`,
+        url : `${BASE_URL}${MY_KEY}&q=${serch_valie}&${SEARCH_OPTIONS}`,
+      })
+        .then(response => response.data)
+    }
+
+export function fetchPhotoPagin (serch_valie, page,){
+    return axios({
+        method: 'get',
+        url : `${BASE_URL}${MY_KEY}&q=${serch_valie}&${SEARCH_OPTIONS}&page=${page}`,
       })
         .then(response =>  response.data)
-
-    // return fetch(url).then(res=>{
-    //     if (!res.ok) throw new Error(res.status)
-    //    return res.json()})
     }
