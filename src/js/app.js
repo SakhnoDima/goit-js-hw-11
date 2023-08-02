@@ -37,7 +37,7 @@ const query = event.target.elements.searchQuery.value;  //запомниз зн�
 
 if (!query){ 
     refs.buttonPagination.disabled = true     //проверяем на пустой инпут
-    observer.unobserve(refs.buttonPagination) //снял
+    observer.unobserve(refs.buttonPagination) //снял observer
     hideLoader()                              //спрятал лоадер
     return Notify.failure("Sorry, You need write somesing")
 }
@@ -67,16 +67,19 @@ const scroll = new OnlyScroll(window, {   // додав плавний скро�
     damping: 0.5,
     eventContainer: refs.galleryBox,
 });
-event.target.reset(); //очищаю форму
+event.target.reset();                    //очищаю форму
 
-modalLightboxGallery.refresh(); //обновить картинки
+modalLightboxGallery.refresh();          //обновить картинки
 }}
 catch(error){ 
 Notify.failure(`${error}`)
-event.target.reset(); //очищаю форму
+event.target.reset();                    //очищаю форму
 }
 }  
+
 //================================================================
+
+
 async function onButtonPagination() {
     try{
 showLoader()                            // показал лоадер
@@ -84,9 +87,7 @@ fetchCardPixabay.page += 1
 
 const data = await fetchCardPixabay.findCard()
 
-if(data.hits){ 
-    observer.unobserve(refs.buttonPagination)     //снял
-    hideLoader()                                  // спрятал лоадер
+if(data.hits){hideLoader()              // спрятал лоадер
 }
 
 refs.buttonPagination.disabled = false  //кнопка стает активной
@@ -96,7 +97,7 @@ setButtonDisable(fetchCardPixabay.page, Math.ceil(data.total / fetchCardPixabay.
 
 renderCards(data.hits, refs.galleryBox)
 
-modalLightboxGallery.refresh(); //обновить картинки
+modalLightboxGallery.refresh();        //обновить картинки
 }
 catch(error){ Notify.failure(`${error}`)}
 }
