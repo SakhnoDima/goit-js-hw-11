@@ -15,6 +15,7 @@ import { renderCards } from "./render_card";
 import { FetchCardPixabay,} from "./api_Pixabay";
 import { refs } from "./helpers/refs";
 import { setButtonDisable} from "./helpers/disableButton.js";
+import { showLoader, hideLoader } from "./helpers/loaderOnOff";
 // ===========================================================
 refs.formEl.addEventListener("submit", onFormSubmit)
 refs.buttonPagination.addEventListener("click", onButtonPagination)
@@ -28,31 +29,32 @@ const fetchCardPixabay = new FetchCardPixabay;  //создал новый экз
 async function onFormSubmit (event){
     try {
 event.preventDefault()
+showLoader()                      // показал лоадер
 
 refs.galleryBox.innerHTML = ""   //очищаем галерею
 
 const query = event.target.elements.searchQuery.value;  //запомниз значение поиска
 
 if (!query){ 
-    refs.buttonPagination.disabled = true   //проверяем на пустой инпут
+    refs.buttonPagination.disabled = true     //проверяем на пустой инпут
     observer.unobserve(refs.buttonPagination) //снял
+    hideLoader()                              //спрятал лоадер
     return Notify.failure("Sorry, You need write somesing")
 }
-
-
 fetchCardPixabay.query = query;
 
-fetchCardPixabay.page = 1;  //вернул первую страницу
+fetchCardPixabay.page = 1;                    //вернул первую страницу
 
-//рендер по сабмиту
-const data = await fetchCardPixabay.findCard()
+const data = await fetchCardPixabay.findCard()//рендер по сабмиту
+
     if(data.total === 0){ 
 event.target.reset();
-
+hideLoader()                                  // спрятал лоадер
 return Notify.failure("Sorry, there are no images matching your search query. Please try again.")
 }
 else {
-observer.observe(refs.buttonPagination); // повесил observer
+hideLoader()                                 // спрятал лоадер
+observer.observe(refs.buttonPagination);     // повесил observer
 
 Notify.success(`Hooray! We found ${data.total} images.`)
 
@@ -77,9 +79,15 @@ event.target.reset(); //очищаю форму
 //================================================================
 async function onButtonPagination() {
     try{
+showLoader()                            // показал лоадер
 fetchCardPixabay.page += 1
 
 const data = await fetchCardPixabay.findCard()
+
+if(data.hits){ 
+    observer.unobserve(refs.buttonPagination)     //снял
+    hideLoader()                                  // спрятал лоадер
+}
 
 refs.buttonPagination.disabled = false  //кнопка стает активной
 
