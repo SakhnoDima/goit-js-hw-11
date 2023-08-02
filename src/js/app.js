@@ -24,6 +24,7 @@ const observer = new IntersectionObserver(onObserver); // создал observer
 const fetchCardPixabay = new FetchCardPixabay;  //создал новый экземпляр
 
 //=============================================================
+
 async function onFormSubmit (event){
     try {
 event.preventDefault()
@@ -37,7 +38,7 @@ if (!query){
     observer.unobserve(refs.buttonPagination) //снял
     return Notify.failure("Sorry, You need write somesing")
 }
-observer.observe(refs.buttonPagination); // повесил observer
+
 
 fetchCardPixabay.query = query;
 
@@ -47,11 +48,14 @@ fetchCardPixabay.page = 1;  //вернул первую страницу
 const data = await fetchCardPixabay.findCard()
     if(data.total === 0){ 
 event.target.reset();
-observer.unobserve(refs.buttonPagination) //снял
+
 return Notify.failure("Sorry, there are no images matching your search query. Please try again.")
 }
 else {
+observer.observe(refs.buttonPagination); // повесил observer
+
 Notify.success(`Hooray! We found ${data.total} images.`)
+
 setButtonDisable(fetchCardPixabay.page, Math.ceil(data.total / fetchCardPixabay.requestLimit )) //проверяю на следнюю страницу
 refs.buttonPagination.disabled = false;  //кнопка стает активной
 
@@ -70,7 +74,7 @@ Notify.failure(`${error}`)
 event.target.reset(); //очищаю форму
 }
 }  
-
+//================================================================
 async function onButtonPagination() {
     try{
 fetchCardPixabay.page += 1
