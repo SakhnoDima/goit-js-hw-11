@@ -2,6 +2,8 @@ import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
 const modalLightboxGallery = new SimpleLightbox('.gallery a');
+//============================================================
+import OnlyScroll from 'only-scrollbar';
  //============================================================ 
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 Notify.init({
@@ -13,15 +15,15 @@ import { renderCards } from "./render_card";
 import { FetchCardPixabay,} from "./api_Pixabay";
 import { refs } from "./helpers/refs";
 import { setButtonDisable} from "./helpers/disableButton.js";
-
+// ===========================================================
 refs.formEl.addEventListener("submit", onFormSubmit)
 refs.buttonPagination.addEventListener("click", onButtonPagination)
-
+//============================================================
 const observer = new IntersectionObserver(onObserver); // создал observer
 
 const fetchCardPixabay = new FetchCardPixabay;  //создал новый экземпляр
 
-
+//=============================================================
 async function onFormSubmit (event){
     try {
 event.preventDefault()
@@ -42,7 +44,10 @@ else Notify.success(`Hooray! We found ${data.total} images.`)
 setButtonDisable(fetchCardPixabay.page, Math.ceil(data.total / fetchCardPixabay.requestLimit )) //проверяю на последнюю страницу
 refs.buttonPagination.disabled = false;  //кнопка стает активной
 renderCards(data.hits, refs.galleryBox); // отрисовка запроса
-
+const scroll = new OnlyScroll(window, {   // додав плавний скролл
+    damping: 0.5,
+    eventContainer: refs.galleryBox,
+});
 event.target.reset(); //очищаю форму
 modalLightboxGallery.refresh();
 }
@@ -59,9 +64,7 @@ refs.buttonPagination.disabled = false  //кнопка стает активно
 //проверяю на последнюю страницу
 setButtonDisable(fetchCardPixabay.page, Math.ceil(data.total / fetchCardPixabay.requestLimit ))
 renderCards(data.hits, refs.galleryBox)
-// if(!data.total.hits){console.log("end");
-//     observer.unobserve(refs.buttonPagination)} //снял
-// 
+modalLightboxGallery.refresh();
 }
 catch(error){ Notify.failure(`${error}`)}
 }

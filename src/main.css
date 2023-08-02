@@ -1,3 +1,4 @@
+
 .section-title{
     background-color: rgb(48, 57, 234);
     padding: 20px 0;
@@ -20,14 +21,14 @@
     flex-wrap: wrap;
     gap: 5px;
     margin-bottom: 10px;
+    /* height: 100vw; */
+    
 }
 .gallery-section{
     padding: 20px 100px;
     
 }
 .photo-card{
-    
-   
     flex-basis: calc((100% - 20px * (10 - 1)) / 10);
 }
 .links{
