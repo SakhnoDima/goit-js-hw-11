@@ -25,7 +25,6 @@ const params = new URLSearchParams({
     return data
 }
  
-
 get query (){
     return this.searchValue;
 }

@@ -33,15 +33,15 @@ if (!query){ refs.buttonPagination.disabled = true   //проверяем на �
 observer.unobserve(refs.buttonPagination) //снял
 return Notify.failure("Sorry, You need write somesing")}
 observer.observe(refs.buttonPagination); // повесил observer
-fetchCardPixabay.query = query;
 
+fetchCardPixabay.query = query;
 fetchCardPixabay.page = 1;  //вернул первую страницу
 
 //рендер по сабмиту
 const data = await fetchCardPixabay.findCard()
     if(data.total === 0){Notify.failure("Sorry, there are no images matching your search query. Please try again.")}
 else Notify.success(`Hooray! We found ${data.total} images.`)
-setButtonDisable(fetchCardPixabay.page, Math.ceil(data.total / fetchCardPixabay.requestLimit )) //проверяю на последнюю страницу
+setButtonDisable(fetchCardPixabay.page, Math.ceil(data.total / fetchCardPixabay.requestLimit )) //проверяю на следнюю страницу
 refs.buttonPagination.disabled = false;  //кнопка стает активной
 renderCards(data.hits, refs.galleryBox); // отрисовка запроса
 const scroll = new OnlyScroll(window, {   // додав плавний скролл
