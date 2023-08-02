@@ -27,34 +27,46 @@ const fetchCardPixabay = new FetchCardPixabay;  //создал новый экз
 async function onFormSubmit (event){
     try {
 event.preventDefault()
+
 refs.galleryBox.innerHTML = ""   //очищаем галерею
+
 const query = event.target.elements.searchQuery.value;  //запомниз значение поиска
-if (!query){ refs.buttonPagination.disabled = true   //проверяем на пустой инпут
-observer.unobserve(refs.buttonPagination) //снял
-return Notify.failure("Sorry, You need write somesing")}
+
+if (!query){ 
+    refs.buttonPagination.disabled = true   //проверяем на пустой инпут
+    observer.unobserve(refs.buttonPagination) //снял
+    return Notify.failure("Sorry, You need write somesing")
+}
 observer.observe(refs.buttonPagination); // повесил observer
 
 fetchCardPixabay.query = query;
+
 fetchCardPixabay.page = 1;  //вернул первую страницу
 
 //рендер по сабмиту
 const data = await fetchCardPixabay.findCard()
     if(data.total === 0){ 
-    event.target.reset();
-    observer.unobserve(refs.buttonPagination) //снял
-     Notify.failure("Sorry, there are no images matching your search query. Please try again.")}
-else {Notify.success(`Hooray! We found ${data.total} images.`)
+event.target.reset();
+observer.unobserve(refs.buttonPagination) //снял
+return Notify.failure("Sorry, there are no images matching your search query. Please try again.")
+}
+else {
+Notify.success(`Hooray! We found ${data.total} images.`)
 setButtonDisable(fetchCardPixabay.page, Math.ceil(data.total / fetchCardPixabay.requestLimit )) //проверяю на следнюю страницу
 refs.buttonPagination.disabled = false;  //кнопка стает активной
+
 renderCards(data.hits, refs.galleryBox); // отрисовка запроса
+
 const scroll = new OnlyScroll(window, {   // додав плавний скролл
     damping: 0.5,
     eventContainer: refs.galleryBox,
 });
 event.target.reset(); //очищаю форму
-modalLightboxGallery.refresh();
+
+modalLightboxGallery.refresh(); //обновить картинки
 }}
-catch(error){ Notify.failure(`${error}`)
+catch(error){ 
+Notify.failure(`${error}`)
 event.target.reset(); //очищаю форму
 }
 }  
@@ -62,12 +74,17 @@ event.target.reset(); //очищаю форму
 async function onButtonPagination() {
     try{
 fetchCardPixabay.page += 1
+
 const data = await fetchCardPixabay.findCard()
+
 refs.buttonPagination.disabled = false  //кнопка стает активной
+
 //проверяю на последнюю страницу
 setButtonDisable(fetchCardPixabay.page, Math.ceil(data.total / fetchCardPixabay.requestLimit ))
+
 renderCards(data.hits, refs.galleryBox)
-modalLightboxGallery.refresh();
+
+modalLightboxGallery.refresh(); //обновить картинки
 }
 catch(error){ Notify.failure(`${error}`)}
 }
