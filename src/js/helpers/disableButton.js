@@ -1,5 +1,6 @@
 
-import { hideButton } from "./buttonOnOff";
+import { hideSelector } from "./loaderOnOff";
+import { refs } from "./refs";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 Notify.init({
     timeout: 3000,   
@@ -8,6 +9,6 @@ Notify.init({
 
 export function setButtonDisable  (currentPage, totalPage){
  if (currentPage >= totalPage) {
-    hideButton();
+    hideSelector(refs.buttonPagination);
     Notify.failure("Sorry, it was last page")
  }}

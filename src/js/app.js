@@ -15,8 +15,7 @@ import { renderCards } from "./render_card";
 import { FetchCardPixabay,} from "./api_Pixabay";
 import { refs } from "./helpers/refs";
 import { setButtonDisable} from "./helpers/disableButton.js";
-import { showLoader, hideLoader } from "./helpers/loaderOnOff";
-import { showButton, hideButton } from "./helpers/buttonOnOff";
+import { showSelector, hideSelector } from "./helpers/loaderOnOff";
 // ===========================================================
 refs.formEl.addEventListener("submit", onFormSubmit)
 refs.buttonPagination.addEventListener("click", onButtonPagination)
@@ -30,14 +29,15 @@ const fetchCardPixabay = new FetchCardPixabay;  //создал новый экз
 async function onFormSubmit (event){
     try {
 event.preventDefault()
-showLoader()                      // показал лоадер
+showSelector(refs.loader)                      // показал лоадер
 
 refs.galleryBox.innerHTML = ""   //очищаем галерею
 
 const query = event.target.elements.searchQuery.value;  //запомниз значение поиска
 
 if ( (!query.trim()) ){                       // проверка на пустой лоадер
-    hideLoader()                              //спрятал лоадер
+    hideSelector(refs.loader)  
+    hideSelector(refs.buttonPagination)                            //спрятал лоадер
     return Notify.failure("Sorry, You need write somesing")
 }
 fetchCardPixabay.query = query;
@@ -45,20 +45,20 @@ fetchCardPixabay.query = query;
 fetchCardPixabay.page = 1;                    //вернул первую страницу
 
 const data = await fetchCardPixabay.findCard()//рендер по сабмиту
- const totalRez = data.total;
- const totalHits = data.totalHits;
+const totalRez = data.total;
+const totalHits = data.totalHits;
 
 if(totalRez === 0){ 
     event.target.reset();
-    hideLoader()                               // спрятал лоадер
+    hideSelector(refs.loader)                               // спрятал лоадер
     return Notify.failure("Sorry, there are no images matching your search query. Please try again.")
 }
 else {
-    hideLoader()                              // спрятал лоадер
+    hideSelector(refs.loader)                              // спрятал лоадер
 
 Notify.success(`Hooray! We found ${totalHits} images.`)
 
-if(totalRez > 40) showButton()        //кнопка стает активной
+if(totalRez > 40) showSelector(refs.buttonPagination)        //кнопка стает активной
 
 renderCards(data.hits, refs.galleryBox); // отрисовка запроса
 
@@ -74,7 +74,7 @@ modalLightboxGallery.refresh();          //обновить картинки
 }}
 catch(error){ console.log(error);
 Notify.failure(`Sorry, you need try again`)
-hideLoader()
+hideSelector(refs.loader)
 event.target.reset();                    //очищаю форму
 }
 }  
@@ -85,15 +85,13 @@ event.target.reset();                    //очищаю форму
 async function onButtonPagination() {
    
     try{
-showLoader()                            // показал лоадер
+showSelector(refs.loader)                            // показал лоадер
 fetchCardPixabay.page += 1
 
 const data = await fetchCardPixabay.findCard()
 const totalHits = data.totalHits;
 
-if(data.hits)hideLoader()              // спрятал лоадер
-
-refs.buttonPagination.disabled = false  //кнопка стает активной
+if(data.hits)hideSelector(refs.loader)              // спрятал лоадер
 
 //проверяю на последнюю страницу
 setButtonDisable(fetchCardPixabay.page, Math.ceil(totalHits/ fetchCardPixabay.requestLimit ))
