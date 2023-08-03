@@ -6,3 +6,4 @@ refs.loader.classList.remove("visually-hidden"); // показал лоадер
 export function hideLoader() {
 refs.loader.classList.add("visually-hidden"); // спрятал лоадер
 }
+
