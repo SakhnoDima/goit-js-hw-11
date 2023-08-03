@@ -81,8 +81,7 @@ finally{
 //================================================================
 
 
-async function onButtonPagination() {
-   
+async function onButtonPagination() {  
     try{
 showSelector(refs.loader)                            // показал лоадер
 fetchCardPixabay.page += 1
@@ -102,7 +101,8 @@ modalLightboxGallery.refresh();                        //обновить кар
 catch(error){  console.log(error);
     Notify.failure(`Sorry, you need try again`)
     event.target.reset();    
-}finally{
+}
+finally{
 hideSelector(refs.loader)                              // спрятал лоадер
 }
 }
