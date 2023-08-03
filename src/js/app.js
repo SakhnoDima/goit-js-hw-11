@@ -57,7 +57,12 @@ else {
 
 Notify.success(`Hooray! We found ${totalHits} images.`)
 
-if(totalRez > 40) showSelector(refs.buttonPagination)        //кнопка стает активной
+if(totalRez > 40) {
+    showSelector(refs.buttonPagination)       //кнопка стает активной
+}
+else if (totalRez < 40) { 
+hideSelector(refs.buttonPagination)                          //кнопка скривается
+}  
 
 renderCards(data.hits, refs.galleryBox); // отрисовка запроса
 
@@ -81,15 +86,13 @@ finally{
 //================================================================
 
 async function onButtonPagination() {  
-   
+    try{ 
 showSelector(refs.loader)                            // показал лоадер
 fetchCardPixabay.page += 1
-try{
+
 const data = await fetchCardPixabay.findCard()
 const totalHits = data.totalHits;
-
-//if(data.hits)hideSelector(refs.loader)              
-
+         
 //проверяю на последнюю страницу
 setButtonDisable(fetchCardPixabay.page, Math.ceil(totalHits/ fetchCardPixabay.requestLimit ))
 
