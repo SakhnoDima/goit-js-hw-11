@@ -1,4 +1,3 @@
-import { refs } from "./refs.js";
 
 export function showSelector(rootSelector) {
 rootSelector.classList.remove("visually-hidden"); // показал лоадер

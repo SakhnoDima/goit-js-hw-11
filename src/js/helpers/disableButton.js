@@ -1,5 +1,5 @@
 
-import { hideSelector } from "./loaderOnOff";
+import { hideSelector } from "./showHideBySelector";
 import { refs } from "./refs";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 Notify.init({

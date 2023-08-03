@@ -15,7 +15,7 @@ import { renderCards } from "./render_card";
 import { FetchCardPixabay,} from "./api_Pixabay";
 import { refs } from "./helpers/refs";
 import { setButtonDisable} from "./helpers/disableButton.js";
-import { showSelector, hideSelector } from "./helpers/loaderOnOff";
+import { showSelector, hideSelector } from "./helpers/showHideBySelector";
 // ===========================================================
 refs.formEl.addEventListener("submit", onFormSubmit)
 refs.buttonPagination.addEventListener("click", onButtonPagination)
