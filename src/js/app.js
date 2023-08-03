@@ -27,7 +27,7 @@ const fetchCardPixabay = new FetchCardPixabay;  //создал новый экз
 //=============================================================
 
 async function onFormSubmit (event){
-    try {
+   
 event.preventDefault()
 showSelector(refs.loader)                      // показал лоадер
 
@@ -43,7 +43,7 @@ if ( (!query.trim()) ){                       // проверка на пуст�
 fetchCardPixabay.query = query;
 
 fetchCardPixabay.page = 1;                    //вернул первую страницу
-
+try {
 const data = await fetchCardPixabay.findCard()//рендер по сабмиту
 const totalRez = data.total;
 const totalHits = data.totalHits;
@@ -80,12 +80,11 @@ finally{
 
 //================================================================
 
-
 async function onButtonPagination() {  
-    try{
+   
 showSelector(refs.loader)                            // показал лоадер
 fetchCardPixabay.page += 1
-
+try{
 const data = await fetchCardPixabay.findCard()
 const totalHits = data.totalHits;
 
