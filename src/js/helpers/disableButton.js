@@ -1,7 +1,7 @@
-
 import { hideSelector } from "./showHideBySelector";
 import { refs } from "./refs";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+
 Notify.init({
     timeout: 3000,   
     position: 'left-top',
