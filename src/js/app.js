@@ -33,7 +33,7 @@ showSelector(refs.loader)                      // показал лоадер
 
 refs.galleryBox.innerHTML = ""                 //очищаем галерею
 
-const query = event.target.elements.searchQuery.value;  //запомниз значение поиска
+const query = event.target.elements.searchQuery.value.trim();  //запомниз значение поиска
 
 if ( (!query.trim()) ){                       // проверка на пустой лоадер
     hideSelector(refs.loader)  
