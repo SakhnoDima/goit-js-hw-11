@@ -31,7 +31,7 @@ async function onFormSubmit (event){
 event.preventDefault()
 showSelector(refs.loader)                      // показал лоадер
 
-refs.galleryBox.innerHTML = ""   //очищаем галерею
+refs.galleryBox.innerHTML = ""                 //очищаем галерею
 
 const query = event.target.elements.searchQuery.value;  //запомниз значение поиска
 
@@ -54,7 +54,6 @@ if(totalRez === 0){
     return Notify.failure("Sorry, there are no images matching your search query. Please try again.")
 }
 else {
-    hideSelector(refs.loader)                              // спрятал лоадер
 
 Notify.success(`Hooray! We found ${totalHits} images.`)
 
@@ -67,15 +66,15 @@ const scroll = new OnlyScroll(window, {   // додав плавний скро�
     eventContainer: refs.galleryBox,
 });
 
-event.target.reset();                    //очищаю форму
-
 modalLightboxGallery.refresh();          //обновить картинки
 
 }}
-catch(error){ console.log(error);
+catch(error){ console.log(error.code);
 Notify.failure(`Sorry, you need try again`)
-hideSelector(refs.loader)
-event.target.reset();                    //очищаю форму
+}
+finally{
+    event.target.reset();                    //очищаю форму
+    hideSelector(refs.loader)                // спрятал лоадер
 }
 }  
 
@@ -91,18 +90,20 @@ fetchCardPixabay.page += 1
 const data = await fetchCardPixabay.findCard()
 const totalHits = data.totalHits;
 
-if(data.hits)hideSelector(refs.loader)              // спрятал лоадер
+//if(data.hits)hideSelector(refs.loader)              
 
 //проверяю на последнюю страницу
 setButtonDisable(fetchCardPixabay.page, Math.ceil(totalHits/ fetchCardPixabay.requestLimit ))
 
 renderCards(data.hits, refs.galleryBox)
 
-modalLightboxGallery.refresh();        //обновить картинки
+modalLightboxGallery.refresh();                        //обновить картинки
 }
 catch(error){  console.log(error);
     Notify.failure(`Sorry, you need try again`)
-    hideLoader()
-    event.target.reset();    }
+    event.target.reset();    
+}finally{
+hideSelector(refs.loader)                              // спрятал лоадер
+}
 }
 
