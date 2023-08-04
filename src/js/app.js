@@ -1,7 +1,9 @@
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
-const modalLightboxGallery = new SimpleLightbox('.gallery a');
+const modalLightboxGallery = new SimpleLightbox('.gallery a',{
+    captionsData: "alt",
+});
 //============================================================
 import OnlyScroll from 'only-scrollbar';
  //============================================================ 
@@ -20,10 +22,12 @@ import { showSelector, hideSelector } from "./helpers/showHideBySelector";
 refs.formEl.addEventListener("submit", onFormSubmit)
 refs.buttonPagination.addEventListener("click", onButtonPagination)
 //============================================================
-//const observer = new IntersectionObserver(onObserver); // создал observer
 
 const fetchCardPixabay = new FetchCardPixabay;  //создал новый экземпляр
 
+//   let observer = new IntersectionObserver(callback, {  //!====== не использую
+//     rootMargin: '0px',
+//   });
 //=============================================================
 
 async function onFormSubmit (event){
@@ -58,6 +62,7 @@ else {
 Notify.success(`Hooray! We found ${totalHits} images.`)
 
 if(totalRez > 40) {
+   // observer.observe(document.querySelector(".target"));    //!====== не использую
     showSelector(refs.buttonPagination)       //кнопка стает активной
 }
 else if (totalRez < 40) { 
@@ -93,6 +98,9 @@ fetchCardPixabay.page += 1
 const data = await fetchCardPixabay.findCard()
 const totalHits = data.totalHits;
          
+// if (fetchCardPixabay.page >= Math.ceil(totalHits/ fetchCardPixabay.requestLimit )) {  //!====== не использую
+//     observer.unobserve(document.querySelector(".target"))
+//     }
 //проверяю на последнюю страницу
 setButtonDisable(fetchCardPixabay.page, Math.ceil(totalHits/ fetchCardPixabay.requestLimit ))
 
@@ -109,3 +117,12 @@ hideSelector(refs.loader)                              // спрятал лоа�
 }
 }
 
+ //!====== не использую
+// function callback(entries) {
+//     entries.forEach(entry => {
+//         console.log("111");
+//       if (entry.isIntersecting) {
+//          onButtonPagination();
+//       }
+//     });
+//   }

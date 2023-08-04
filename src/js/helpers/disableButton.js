@@ -8,7 +8,7 @@ Notify.init({
 })
 
 export function setButtonDisable  (currentPage, totalPage){
- if (currentPage >= totalPage) {
+   if (currentPage >= totalPage) {
     hideSelector(refs.buttonPagination);
     Notify.failure("Sorry, it was last page")
  }}
